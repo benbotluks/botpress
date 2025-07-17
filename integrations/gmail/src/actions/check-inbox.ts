@@ -1,14 +1,15 @@
 import { wrapAction } from '../action-wrapper'
 
-export const checkNewEmails = wrapAction(
-  { actionName: 'checkNewEmails', errorMessage: 'Failed to check for new emails' },
+export const checkInbox = wrapAction(
+  { actionName: 'checkInbox', errorMessage: 'Failed to check for new emails' },
   async ({ googleClient }, { query, maxResults, pageToken }) => {
+    console.info('Searching for emails with query:', query)
     const result = await googleClient.listMessages(query, maxResults, pageToken)
     console.info('Retrieved messages:', result)
 
     if (!result || !result.messages) {
       return {
-        hasNewEmails: false,
+        hasEmails: false,
         messages: [],
         nextPageToken: null,
         resultSizeEstimate: 0,
@@ -16,10 +17,10 @@ export const checkNewEmails = wrapAction(
     }
 
     const messages = result.messages || []
-    const hasNewEmails = messages.length > 0
+    const hasEmails = messages.length > 0
 
     return {
-      hasNewEmails,
+      hasEmails,
       messages: messages.map((msg) => ({
         id: msg.id || '',
         threadId: msg.threadId || '',
