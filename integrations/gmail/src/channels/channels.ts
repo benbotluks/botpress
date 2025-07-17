@@ -63,6 +63,7 @@ export const channels = {
       }),
       text: wrapChannel({ channelName: 'channel', messageType: 'text' }, async (props) => {
         const { text: textContent } = props.payload
+        console.info("I wanted to reply:", textContent)
 
         await _sendEmailReply({
           ...props,
