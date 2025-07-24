@@ -60,6 +60,7 @@ export namespace Event {
       .describe(
         'List of RRULE, EXRULE, RDATE and EXDATE lines for a recurring event, as specified in RFC5545. This field is omitted for single events or instances of recurring events.'
       ),
+    attendees: z.array(z.object({ email: z.string().title('AttendeeEmailAddress') })).title('Attendees').optional().describe('List of attendees for the event. Each attendee is represented by their email address.'),
     status: z
       .enum(['confirmed', 'tentative', 'cancelled'])
       .title('Event Status')
